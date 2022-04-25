@@ -2,20 +2,16 @@
 
 {% block content %}
     <h1>{% block title %} Users {% endblock %}</h1>
-    <div class="d-block align-items-center">
+    <div class="d-inline">
         {% for user in users %}
-        
-        <div class="d-flex align-items-center d-flex justify-content-between"">
-            <h2>
-                <a href="{{ url_for('post', user_id=user[0]) }}" class="">{{ user[1] }}</a>
-            </h2>
-            <p>
+        <div class="card">
+            <div class="card-body">
+                <h2 class="card-title"><a href="{{ url_for('post', user_id=user[0]) }}" class="link-info">{{ user[1] }}</a></h2>
                 <a href="{{ url_for('edit', id=user[0] ) }}">
                     <button class="btn btn-warning btn-xs my-2" type="button">Edit</button>
                 </a>
-            </p>
+            </div>
         </div>
-        <hr>
     {% endfor %}
     </div>
 {% endblock %}
