@@ -7,3 +7,5 @@ DB_USERNAME = environ.get('DB_USERNAME')
 DB_PASSWORD = environ.get('DB_PASSWORD')
 
 SECRET_KEY = environ.get('SECRET_KEY')
+
+FLASK_ENV= environ.get('FLASK_ENV')
