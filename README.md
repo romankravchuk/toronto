@@ -1,114 +1,111 @@
 # flask-app
 
-В данном репозитории находится простейшее веб-приложение,  
-сделанное с помощью **Flask**, а также файлы конфигурации  
-для хостинга на **Apache**
+Здесь находится простейшее web-приложение.  
 
-## Настройка перед запуском
+Технологии, которые использовались
 
-Шаг 1. Устанавливаем **venv**:
+- Python 3.8
+- Flask 2.1.1
+- PostgreSQL
+- Apache
+
+## Как запустить.
+
+---
+
+### Шаг 1. Настройка **virtualenv**.
 
 ```bash
-pip install virtualenv
-```
-
-Шаг 2. Создаем директорию **env** для проекта:
-
-```bash
-pythom3 -m virtualenv env
+$ python3 -m virtualenv env
 ```
 
 В итоге получим:
 
 ![env](./images/env.png)
 
-Шаг 3. Настройка **env**
-
-Открываем файл activate с помощью текстового редактора:
+### Шаг 2. Активация **env** и установка необходимых библиотек.
 
 ```bash
-nano /env/bin/activate
+$ source env/bin/activate
+$ pip install -r requirements.txt
 ```
 
-Добавляем команды, расположенные между **...**.  
-Значения меняем на свои.
+### Шаг 3. Создать файл `.env` и добавить туда переменные.
 
 ```bash
-export PATH
-
-...
-export DB_NAME="database"
-export DB_USERNAME="user"
-export DB_PASSWORD="password"
-
-export SECRET_KEY="key"
-
-export FLASK_ENV="development"
-...
+$ touch .env
 ```
 
-Шаг 4. Активируем **env**
+Вот ты должно выглядель содержимое `.env`
 
 ```bash
-source env/bin/activate
+FLASK_ENV='development'
+DB_HOST='localhost'
+DB_NAME='database name'
+DB_USER='user'
+PGSQL_DB_PASSWORD='user password'
+SECRET_KEY='v3ry_s3cr37_k3y'
 ```
 
-Если все прошло успешно, то получим:
+### Шаг 4. Создать таблицу в вашей бд.
 
-```bash
-(env) user@host:~/flask-app$
+Используя команду в `psql`
+
+```SQL
+CREATE TABLE users (
+    id serial PRIMARY KEY,
+    login varchar(50) NOT NULL,
+    password varchar(100) NOT NULL,
+    date_added date DEFAULT CURRENT_DATE
+);
 ```
 
-Шаг 5. Успанавливаем необходимые библиотеки python
+Используя `python` скрипт
 
 ```bash
-pip install -r requirements.txt
+$ python init_postgresql_db.py
 ```
 
-## Настройка для Apache
-
-Шаг 1. Установка и активация mod_wsgi
-
-Устанавливаем mod_wsgi:
+### Шаг 5. Запустить приложение.
 
 ```bash
-sudo apt-get install libapache2-mod-wsgi python-dev
+$ python app.py
 ```
 
-Активируем mod_wsgi:
+## Настройка под Apache.
+
+---
+
+### Шаг 1. Поместить файл `flask-app.conf` в директорию `/etc/apache2/sites-enabled/`.
 
 ```bash
-sudo a2enmod wsgi
+$ sudo mv flask-app.conf /etc/apache2/sites-enabled/
 ```
 
-Шаг 2. Подготовка файлов конфигурации
+> Примечание: Разкоментируйте в `flask-app.conf` строку `ServerName`  
+> и вместо **Your IP** напишите ваш домен/IP адресс, чтобы подлючаться  
+> не только через **localhost/127.0.0.1**
 
-Копируем **flask-app.conf** в каталог с файлам конфигурации:
+### Шаг 2. Копировать файлы приложения в `/var/www/flask-app/`.
 
 ```bash
-cp flask-app.conf /etc/apache2/sites-available/
+$ sudo cp -rp . /var/www/flask-app/
 ```
 
-Далле создаем каталог для логов:
+### Шаг 3. Создать директорию `logs`.
 
 ```bash
-mkdir logs
+$ mkdir logs
 ```
 
-Копируем все содержимое репозитория в каталог, из которого **Apache** будет просматривать файлы
+### Шаг 4. Активировать конфиг файл.
 
 ```bash
-cp -pr . /var/www/flask-app/
+$ sudo a2ensite flask-app.conf
 ```
 
-Меняем владельца каталога flask-app
+### Шаг 5. Перезагрузить Apache.
 
 ```bash
-sudo chown -R www-data:www-data /var/www/flask-app
-```
-
-Шаг 3. Перезапуск **Apache**
-
-```bash
-sudo service apache2 restart
+$ sudo service apache2 restart
 ```
