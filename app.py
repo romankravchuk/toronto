@@ -1,13 +1,15 @@
 import psycopg2
 
+from config import config
 
 from flask import Flask, render_template, request, url_for, flash, redirect
 from werkzeug.exceptions import abort
 
-from config import SECRET_KEY, DB_NAME, DB_USERNAME, DB_PASSWORD
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = SECRET_KEY
+
+
+app.config['SECRET_KEY'] = config['SECRET_KEY']
 
 
 @app.route('/')
@@ -26,7 +28,7 @@ def post():
 
 @app.route('/users')
 def users():
-    conn = get_db_connection(DB_NAME, DB_USERNAME, DB_PASSWORD)
+    conn = get_postgres_connection()
     cursor = conn.cursor()
 
     cursor.execute('SELECT * FROM users;')
@@ -50,7 +52,8 @@ def create():
         elif not password:
             flash('Password is required!')
         else:
-            conn = get_db_connection(DB_NAME, DB_USERNAME, DB_PASSWORD)
+            conn = get_postgres_connection()
+
             cur = conn.cursor()
 
             cur.execute('INSERT INTO users (login, password) VALUES (%s, %s)',
@@ -79,7 +82,8 @@ def edit():
         elif not password:
             flash('Password is required!')
         else:
-            conn = get_db_connection(DB_NAME, DB_USERNAME, DB_PASSWORD)
+            conn = get_postgres_connection()
+            
             cur = conn.cursor()
 
             cur.execute('UPDATE users SET login = %s, password = %s WHERE id = %s;',
@@ -100,7 +104,8 @@ def delete():
     user = get_user(user_id)
     
     if user:
-        conn = get_db_connection(DB_NAME, DB_USERNAME, DB_PASSWORD)
+        conn = get_postgres_connection()
+        
         cur = conn.cursor()
 
         cur.execute(f'DELETE FROM users WHERE id = {user_id};')
@@ -115,21 +120,23 @@ def delete():
     return redirect(url_for('users'))
 
 
-def get_db_connection(db_name: str, username: str, password: str):
+def get_postgres_connection():
+
     conn = psycopg2.connect(
-        host="localhost",
-        database=db_name,
-        user=username,
-        password=password
+        host=config['DB_HOST'],
+        database=config['DB_NAME'],
+        user=config['DB_USER'],
+        password=config['PGSQL_DB_PASSWORD']
     )
     
     return conn
 
 
 def get_user(user_id):
-    conn = get_db_connection(DB_NAME, DB_USERNAME, DB_PASSWORD)
-
+    
+    conn = get_postgres_connection()
     cur = conn.cursor()
+    
     cur.execute(f'SELECT * FROM users WHERE id = {user_id};')
 
     user = cur.fetchone()

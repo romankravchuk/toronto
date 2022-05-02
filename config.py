@@ -1,11 +1,19 @@
-from os import environ 
+from os import getenv
+from dotenv import load_dotenv
 
-DB_NAME = environ.get('DB_NAME')
 
-DB_USERNAME = environ.get('DB_USERNAME')
+load_dotenv()
 
-DB_PASSWORD = environ.get('DB_PASSWORD')
 
-SECRET_KEY = environ.get('SECRET_KEY')
+config = {
+    "DB_HOST" : getenv('DB_HOST'),
+    "DB_NAME" : getenv('DB_NAME'),
+    "DB_USER" : getenv('DB_USER'),
+    "PGSQL_DB_PASSWORD" : getenv('PGSQL_DB_PASSWORD'),
+    "SECRET_KEY" : getenv('SECRET_KEY')
+}
 
-FLASK_ENV= environ.get('FLASK_ENV')
+
+if __name__ == '__main__':
+    print(config)
+    
