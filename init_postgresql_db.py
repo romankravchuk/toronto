@@ -1,4 +1,5 @@
 import psycopg2
+from config import config
 
 
 users = {
@@ -17,10 +18,10 @@ users = {
 
 try:
     conn = psycopg2.connect(
-        host="localhost",
-        database="roman",
-        user="roman",
-        password="roman123"
+        host=config['DB_HOST'],
+        database=config['DB_NAME'],
+        user=config['DB_USER'],
+        password=config['PGSQL_DB_PASSWORD']
     )
     
     cur = conn.cursor()
