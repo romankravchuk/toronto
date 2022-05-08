@@ -3,13 +3,13 @@ from flask import make_response, redirect, render_template, request, url_for
 
 from src.models import User, db
 
-users_bp = Blueprint('users_bp', __name__)
+users_bp = Blueprint('users_bp', __name__, template_folder='templates')
 
 
 @users_bp.route('/users')
 def users():
     users = User.query.all()
-    return render_template('/users/index.html', users=users)
+    return render_template('users.html', users=users)
 
 
 @users_bp.route('/users/edit', methods=['GET', 'POST'])
@@ -33,7 +33,7 @@ def edit():
 
         return redirect(url_for('users_bp.users'))
     
-    return render_template('/users/edit.html', user=user)
+    return render_template('edit.html', user=user)
 
 
 @users_bp.route('/users/delete', methods=['POST'])
