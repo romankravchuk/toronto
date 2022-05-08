@@ -1,0 +1,32 @@
+{% extends 'base.html' %} 
+
+{% block content %}
+<div class="card p-4">
+    <div class="card-title">
+        <h1>{% block title %} Login {% endblock %}</h1>
+    </div>
+    <div class="card-body">
+        <div class="card-text">
+            <form action="login" class="needs-validation" method="post">
+                <div class="form-row">
+                    <div class="col mb-3">
+                        <label for="username">Username</label>
+                        <input type="text" class="form-control" name="username" placeholder="Username" value="" required>
+                        <div class="valid-feedback">Looks good!</div>
+                      </div>
+                      <div class="col mb-3">
+                        <label for="password">Password</label>
+                        <input type="password" class="form-control" name="password" placeholder="Password" value="" required>
+                        <div class="valid-feedback">Looks good!</div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col">
+                        <button class="btn btn-primary btn-block" type="submit">Log In</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

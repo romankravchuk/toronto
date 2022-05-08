@@ -1,0 +1,30 @@
+{% extends 'base.html' %} 
+
+{% block content %}
+<div class="card p-4">
+    <div class="card-title">
+        <h1>{% block title %} Sign Up {% endblock %}</h1>
+    </div>
+    <div class="card-body">
+        <div class="card-text">
+            <form method="post" action="/signup">
+                <div class="form-row">
+                    <div class="col mb-3">
+                        <label for="username">Username</label>
+                        <input type="text" class="form-control" name="username" placeholder="Username" value="{{ request.form['username'] }}">
+                      </div>
+                      <div class="col mb-3">
+                        <label for="password">Password</label>
+                        <input type="password" class="form-control" name="password" placeholder="Password" value="{{ request.form['password'] }}">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col">
+                        <button class="btn btn-primary btn-block" type="submit">Register</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
