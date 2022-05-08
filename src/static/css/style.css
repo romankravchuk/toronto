@@ -1,6 +1,28 @@
 h1 {
-    border: 2p #eee solid;
-    color: brown;
+  border: 2p #eee solid;
+  color: brown;
+  text-align: center;
+  padding: 10px;
+}
+
+.error-title {
+    color: #000000;
     text-align: center;
-    padding: 10px;
+}
+
+.error-subtitle {
+    color: #3765ac;
+    text-align: center;
+}
+
+.error-template {
+  padding: 40px 15px;
+  text-align: center;
+}
+.error-actions {
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+.error-actions .btn {
+  margin-right: 10px;
 }
