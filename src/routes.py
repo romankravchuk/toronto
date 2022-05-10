@@ -1,6 +1,7 @@
 from flask import current_app as app
 from flask import render_template
 from flask_login import LoginManager
+from werkzeug.exceptions import NotFound
 
 from .templates.users import users
 from .templates.auth import auth
@@ -19,9 +20,9 @@ def index():
     return render_template('index.html')
 
 
-@app.errorhandler(404)
+@app.errorhandler(NotFound)
 def not_found(error):
-    return render_template('404.html')
+    return render_template('404.html'), 404
 
 
 @login_manager.user_loader
