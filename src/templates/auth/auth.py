@@ -1,6 +1,6 @@
-from flask import Blueprint, flash, request
+from flask import Blueprint, flash, request, session
 from flask import redirect, render_template, url_for
-from flask_login import login_user, login_required, current_user
+from flask_login import login_user, login_required, current_user, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from src.models import SessionUser, db
@@ -31,6 +31,18 @@ def login():
 
     return render_template('login.html')
 
+
+@auth_bp.route('/logout')
+@login_required
+def logout():
+    logout_user()
+
+    if session.get('was_once_logged_in'):
+        del session['was_once_logged_in']
+
+    flash('You have successfully logged out.')
+
+    return redirect(url_for('auth_bp.login'))
 
 @auth_bp.route('/signup', methods=['GET', 'POST'])
 def signup():
