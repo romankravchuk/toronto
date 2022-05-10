@@ -1,4 +1,4 @@
-# Настройка linux apache2 python postgresql
+# Flask application
 
 > Технологии, которые использовались  
 > - Python 3.8.10
