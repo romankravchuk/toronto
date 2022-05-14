@@ -22,11 +22,21 @@
       </div>
     </nav>
     <div class="container">
-      {% for message in get_flashed_messages() %}
-      <div class="alert alert-danger">{{ message }}</div>
-      {% endfor %}
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          {% for category, message in messages %}
+            {% if category == 'info' %}
+              <div class="alert alert-info text-center font-weight-bold">{{ message }}</div>
+            {% else %}
+              <div class="alert alert-danger text-center font-weight-bold">{{ message }}</div>
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
       {% block content %}
       {% endblock %}
     </div>
   </body>
+  {% block javascript %}
+  {% endblock %}
 </html>

@@ -7,17 +7,21 @@
     </div>
     <div class="card-body">
         <div class="card-text">
-            <form action="login" class="needs-validation" method="post">
+            <form action="login" class="needs-validation" method="post" novalidate>
                 <div class="form-row">
                     <div class="col mb-3">
                         <label for="username">Username</label>
-                        <input type="text" class="form-control" name="username" placeholder="Username" value="" required>
-                        <div class="valid-feedback">Looks good!</div>
+                        <input type="text" class="form-control" name="username" id="username" placeholder="Username" required>
+                        <div class="invalid-feedback">
+                            Please enter your username.
+                        </div>
                       </div>
                       <div class="col mb-3">
                         <label for="password">Password</label>
-                        <input type="password" class="form-control" name="password" placeholder="Password" value="" required>
-                        <div class="valid-feedback">Looks good!</div>
+                        <input type="password" class="form-control" name="password" id="password" placeholder="Password" required>
+                        <div class="invalid-feedback">
+                            Please enter your password.
+                        </div>
                     </div>
                 </div>
                 <div class="form-row">
@@ -29,4 +33,7 @@
         </div>
     </div>
 </div>
+{% endblock %}
+{% block javascript %}
+<script src="{{ url_for('static', filename= 'js/validate.js') }}"></script>
 {% endblock %}
