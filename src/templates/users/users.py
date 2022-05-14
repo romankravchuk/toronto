@@ -1,5 +1,5 @@
-from flask import Blueprint, flash
-from flask import make_response, redirect, render_template, request, url_for
+from flask import Blueprint, flash, abort
+from flask import redirect, render_template, request, url_for
 
 from src.models import User, db
 
@@ -17,23 +17,25 @@ def edit():
     user_id = request.args.get('id', type=str)
     user = User.query.get(user_id)
 
-    if request.method == 'POST':
-        username = request.form['username']
-        email = request.form['email']
+    if not user:
+        abort(404)
+
+    if request.method == 'GET':
+        return render_template('edit.html', user=user)
+
+    username = request.form['username']
+    email = request.form['email']
         
-        if not username:
-            return make_response('Username is requierd!')
-        
-        user.username = username
-        user.email = email
+    user.username = username
+    user.email = email
 
-        db.session.commit()
+    db.session.commit()
 
-        flash("User Updated Successfully")
+    flash("{} updated successfully".format(user.username), "info")
 
-        return redirect(url_for('users_bp.users'))
+    return redirect(url_for('users_bp.users'))
     
-    return render_template('edit.html', user=user)
+
 
 
 @users_bp.route('/users/delete', methods=['POST'])
@@ -45,6 +47,6 @@ def delete():
         db.session.delete(user)
         db.session.commit()
         
-        flash("User Deleted Successfully")
+        flash("{} deleted successfully".format(user.username), 'info')
 
     return redirect(url_for('users_bp.users'))
