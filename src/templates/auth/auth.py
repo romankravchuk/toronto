@@ -39,7 +39,7 @@ def logout():
     if session.get('was_once_logged_in'):
         del session['was_once_logged_in']
 
-    flash('You have successfully logged out.')
+    flash('You have successfully logged out.', 'info')
 
     return redirect(url_for('auth_bp.login'))
 
@@ -73,4 +73,5 @@ def signup_post():
 @auth_bp.route('/profile')
 @login_required
 def profile():
-    return render_template('profile.html', name=current_user.username)
+    user = SessionUser.query.filter_by(id=current_user.get_id()).first()
+    return render_template('profile.html', user=user)
