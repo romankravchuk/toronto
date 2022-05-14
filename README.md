@@ -1,13 +1,13 @@
 # Flask application
 
-> Технологии, которые использовались  
+> Технологии, которые использовались.
+>  
 > - Python 3.8.10
 > - Flask 2.1.1
 > - PostgreSQL
 > - SQLAlchemy 2.1.2
 
-
-## Как запустить.
+## Как запустить
 
 ---
 
@@ -25,6 +25,9 @@ $ python3 -m virtualenv env
 
 ```bash
 $ source env/bin/activate
+```
+
+```bash
 $ pip install -r requirements.txt
 ```
 
