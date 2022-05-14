@@ -1,18 +1,30 @@
+from math import ceil
 from flask import Blueprint, flash, abort
 from flask import redirect, render_template, request, url_for
+from flask_login import login_required
 
 from src.models import User, db
+from src.config import Config
 
 users_bp = Blueprint('users_bp', __name__, template_folder='templates')
 
 
 @users_bp.route('/users')
+@login_required
 def users():
-    users = User.query.all()
-    return render_template('users.html', users=users)
+    page = request.args.get('page', default=1, type=int)
+    
+    page_size = (page - 1) * Config.QUERY_LIMIT;
+    users_count = User.query.count()
+    last_page = ceil(users_count / Config.QUERY_LIMIT)
+
+    users = User.query.order_by(User.id).limit(Config.QUERY_LIMIT).offset(page_size).all()
+
+    return render_template('users.html', users=users, page=page, last_page=last_page)
 
 
 @users_bp.route('/users/edit', methods=['GET', 'POST'])
+@login_required
 def edit():
     user_id = request.args.get('id', type=str)
     user = User.query.get(user_id)
@@ -39,6 +51,7 @@ def edit():
 
 
 @users_bp.route('/users/delete', methods=['POST'])
+@login_required
 def delete():
     user_id = request.args.get('id', type=str)
     user = User.query.get(user_id)

@@ -4,17 +4,17 @@
 <div class="card">
     <div class="card-body">
         <div class="card-title text-center">
-            <h1>{% block title %} Users {% endblock %}</h1>
+            <h1>{% block title %} Discord users {% endblock %}</h1>
         </div>
         <div class="card-text">
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th scope="col">Id</th>
+                        <th scope="col">ID</th>
                         <th scope="col">Name</th>
                         <th scope="col">Email</th>
                         <th scope="col">Date created</th>
-                        <th scope="col">Actions</th>
+                        <th scope="col"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -35,6 +35,20 @@
                     {% endfor %}
                 </tbody>
             </table>
+            <div class="d-flex flex-row justify-content-between">
+                <form action="{{ url_for('users_bp.users') }}" method="get">
+                    <input type="hidden" name='page' value='{{ page - 1 }}'>
+                    {% if page > 1 %}
+                    <input class='btn btn-secondary' type="submit" value='Back'>
+                    {% endif %}
+                </form>
+                <form action="{{ url_for('users_bp.users') }}" method="get">
+                    <input type="hidden" name='page' value='{{ page + 1 }}'>
+                    {% if page < last_page %}
+                    <input class='btn btn-secondary' type="submit" value='Next'>
+                    {% endif %}
+                </form>
+            </div>
         </div>
     </div>
 </div>
