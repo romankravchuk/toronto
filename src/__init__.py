@@ -1,9 +1,7 @@
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
 
 from .config import FlaskConfig
-
-db = SQLAlchemy()
+from .database import db
 
 
 def create_app():
@@ -13,7 +11,7 @@ def create_app():
     db.init_app(app)
 
     with app.app_context():
-        from . import routes
+        from . import blueprints
 
         db.create_all()
 
