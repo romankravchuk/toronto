@@ -3,8 +3,8 @@ from flask import redirect, render_template, url_for
 from flask_login import login_user, login_required, current_user, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
 
-from src.models import SessionUser
-from src.database import db
+from ..models.session_user import SessionUser
+from ..database import db
 
 auth = Blueprint('auth', __name__, template_folder='templates', url_prefix="/auth")
 

@@ -3,9 +3,9 @@ from flask import Blueprint, flash, abort
 from flask import redirect, render_template, request, url_for
 from flask_login import login_required
 
-from src.database import db
-from src.models import User
-from src.config import Config
+from ..database import db
+from ..models.user import User
+from ..config import Config
 
 users = Blueprint('users', __name__, template_folder='templates', url_prefix='/users')
 
