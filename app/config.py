@@ -12,4 +12,11 @@ class FlaskConfig:
 
 
 class Config:
-    QUERY_LIMIT=5
+    QUERY_LIMIT = 5
+    LOG_FORMAT = "{time} | {level} | {message}"
+    ERROR = "ERROR"
+    DEBUG = "DEBUG"
+    ROTATION = '10 KB'
+    COMPRESSION = "zip"
+    DEBUG_PATH = '/var/www/flask-app/logs/debug/debug.log'
+    ERROR_PATH = '/var/www/flask-app/logs/error/error.log'
