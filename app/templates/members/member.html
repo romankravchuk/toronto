@@ -1,0 +1,35 @@
+{% extends 'base.html' %} 
+
+{% block content %}
+<div class="card my-1 w-50 mx-auto">
+  <div class="upper">
+    <img class="img-fluid">
+  </div>
+  <div class="card-body">
+    <div class="profile text-center">
+      {% if member.avatar_url %}
+      <img src="{{ member.avatar_url }}" alt="member avatar" name="img" class="rounded-circle" width="80">
+      {% else %}
+      <img src="{{ member.default_avatar_url }}" alt="member avatar" name="img" class="rounded-circle" width="80">
+      {% endif %}
+    </div>
+    <div class="mt-2 text-center pb-1">
+      <h4 class="mb-0 text-primary">{{ member.name }}#{{ member.discriminator }}</h4>
+    </div>
+    <div class="card-text">
+      <h6 class="text-center">Information</h6>
+      <hr class="mt-0 mb-4">
+      <div class="row pt-1">
+        <div class="col-6 mb-3">
+          <h6>ID</h6>
+          <p class="text-muted">{{ member.id }}</p>
+        </div>
+        <div class="col-6 mb-3">
+          <h6>Date created</h6>
+          <p class="text-muted">{{ member.created_at.strftime("%b %d, %Y") }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

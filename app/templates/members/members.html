@@ -4,7 +4,7 @@
 <div class="card">
     <div class="card-body">
         <div class="card-title text-center">
-            <h1>{% block title %} Discord users {% endblock %}</h1>
+            <h1>{% block title %} Discord members {% endblock %}</h1>
         </div>
         <div class="card-text">
             <table class="table table-striped">
@@ -12,22 +12,20 @@
                     <tr>
                         <th scope="col">ID</th>
                         <th scope="col">Name</th>
-                        <th scope="col">Email</th>
                         <th scope="col">Date created</th>
                         <th scope="col"></th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for user in users %}
+                    {% for member in members %}
                     <tr>
-                        <th scope="col" class="align-middle">{{ user.id }}</th>
+                        <th scope="col" class="align-middle">{{ member.id }}</th>
                         <th scope="col" class="align-middle">
-                            <a href="{{ url_for('users.edit', id=user.id) }}">{{ user.username }}</a>
+                            <a href="{{ url_for('members.member', id=member.id) }}">{{ member.name }}#{{ member.discriminator }}</a>
                         </th>
-                        <th scope="col" class="align-middle">{{ user.email }}</th>
-                        <th scope="col" class="align-middle">{{ user.created }}</th>
+                        <th scope="col" class="align-middle">{{ member.created_at.strftime("%b %d, %Y") }}</th>
                         <th scope="col" class="align-middle">
-                            <form action="{{ url_for('users.delete', id=user.id) }}" method="post">
+                            <form action="{{ url_for('members.delete', id=member.id) }}" method="post">
                                 <button class="btn btn-danger btn-sm my-2 btn-block" type="submit"">Delete</button>
                             </form>
                         </th>    
@@ -36,16 +34,19 @@
                 </tbody>
             </table>
             <div class="d-flex flex-row justify-content-between">
-                <form action="{{ url_for('users.index') }}" method="get">
+                <form action="{{ url_for('members.index') }}" method="get">
                     <input type="hidden" name='page' value='{{ page - 1 }}'>
                     {% if page > 1 %}
-                    <input class='btn btn-secondary' type="submit" value='Back'>
+                        <input class='btn btn-secondary' type="submit" value='Back'>
                     {% endif %}
                 </form>
-                <form action="{{ url_for('users.index') }}" method="get">
+                <div>
+                    <span class="font-weight-bold">{{ page }} / {{ last_page }}</span>
+                </div>
+                <form action="{{ url_for('members.index') }}" method="get">
                     <input type="hidden" name='page' value='{{ page + 1 }}'>
                     {% if page < last_page %}
-                    <input class='btn btn-secondary' type="submit" value='Next'>
+                        <input class='btn btn-secondary' type="submit" value='Next'>
                     {% endif %}
                 </form>
             </div>
