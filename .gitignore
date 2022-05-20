@@ -2,6 +2,10 @@
 # Created by https://www.toptal.com/developers/gitignore/api/dotenv,python,flask,linux,windows
 # Edit at https://www.toptal.com/developers/gitignore?templates=dotenv,python,flask,linux,windows
 
+### configs ###
+flask.ini
+flask.sock
+
 ### dotenv ###
 .env
 
