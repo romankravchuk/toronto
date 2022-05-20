@@ -44,19 +44,18 @@ CONNECTION_STRING="postgresql+psycopg2://username:password@localhost:port/dbname
 SECRET_KEY="v3ry-s3cr37-k3y"
 ```
 
-Шаг 4. Создать таблицу в вашей бд.
+Шаг 5. Создать директории для логов
 
-```SQL
-CREATE TABLE users (
-    id serial PRIMARY KEY,
-    login varchar(50) NOT NULL,
-    password varchar(100) NOT NULL,
-    date_added date DEFAULT CURRENT_DATE
-);
+```bash
+$ mkdir logs
+```
+
+```bash
+mkdir logs/debug && mkdir logs/error
 ```
 
 Шаг 5. Запустить приложение.
 
 ```bash
-$ python app.py
+$ python wsgi.py
 ```
