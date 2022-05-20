@@ -51,7 +51,7 @@ $ mkdir logs
 ```
 
 ```bash
-mkdir logs/debug && mkdir logs/error
+$ mkdir logs/debug && mkdir logs/error
 ```
 
 Шаг 5. Запустить приложение.
