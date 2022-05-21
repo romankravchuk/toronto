@@ -41,7 +41,14 @@
                     {% endif %}
                 </form>
                 <div>
-                    <span class="font-weight-bold">{{ page }} / {{ last_page }}</span>
+                    <span class="font-weight-bold">
+                        {{ page }} / 
+                        {% if last_page < 1 %}
+                            {{ last_page + 1 }}
+                        {% else %}
+                            {{ last_page }}
+                        {% endif %}
+                    </span>
                 </div>
                 <form action="{{ url_for('members.index') }}" method="get">
                     <input type="hidden" name='page' value='{{ page + 1 }}'>
