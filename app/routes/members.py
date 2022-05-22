@@ -40,7 +40,7 @@ def index():
     return render_template('members/members.html', **context)
 
 
-@members.route('/member', methods=['GET', 'POST'])
+@members.route('/member', methods=['GET'])
 @login_required
 @logger.catch
 def member():
@@ -52,8 +52,35 @@ def member():
     if not member:
         abort(404)
 
-    if request.method == 'GET':
-        return render_template('members/member.html', member=member)
+    return render_template('members/member.html', member=member)
+
+
+@members.route('/edit')
+@login_required
+@logger.catch
+def edit():
+    member_id = request.args.get('id', type=str)
+    member = Member.query.get(member_id)
+
+    logger.debug(f"Get member: {member}")
+
+    if not member:
+        abort(404)
+
+    return render_template('members/edit.html', member=member)
+
+
+@members.route('/edit', methods=['POST'])
+@logger.catch
+@login_required
+def edit_post():
+    member_id = request.args.get('id', type=str)
+    member = Member.query.get(member_id)
+
+    logger.debug(f"Get member: {member}")
+
+    if not member:
+        abort(404)
 
     name = request.form['name']
     email = request.form['email']
@@ -67,6 +94,7 @@ def member():
     flash(f"{member.name} updated successfully", "info")
 
     return redirect(url_for('members.members'))
+
 
 
 @members.route('/delete', methods=['POST'])
