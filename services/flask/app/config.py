@@ -18,5 +18,5 @@ class Config:
     DEBUG = "DEBUG"
     ROTATION = '10 KB'
     COMPRESSION = "zip"
-    DEBUG_PATH = '/var/www/flask-app/logs/debug/debug.log'
-    ERROR_PATH = '/var/www/flask-app/logs/error/error.log'
+    DEBUG_PATH = getenv('DEBUG_LOG_PATH')
+    ERROR_PATH = getenv("ERROR_LOG_PATH")

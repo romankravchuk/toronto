@@ -42,6 +42,8 @@ $ touch .env
 ```bash
 CONNECTION_STRING="postgresql+psycopg2://username:password@localhost:port/dbname"
 SECRET_KEY="v3ry-s3cr37-k3y"
+DEBUG_LOG_PATH='/path/to/debug.log'
+ERROR_LOG_PATH='/path/to/error.log'
 ```
 
 Шаг 5. Создать директории для логов

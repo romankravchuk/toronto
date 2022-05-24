@@ -7,10 +7,10 @@
   </div>
   <div class="card-body">
     <div class="profile text-center">
-      {% if member.avatar_url %}
-        <img src="{{ member.avatar_url }}" alt="member avatar" name="img" class="rounded-circle" width="80">
+      {% if member.avatar %}
+        <img src="{{ member.avatar }}" alt="member avatar" name="img" class="rounded-circle" width="80">
       {% else %}
-        <img src="{{ member.default_avatar_url }}" alt="member avatar" name="img" class="rounded-circle" width="80">
+        <img src="{{ member.default_avatar }}" alt="member avatar" name="img" class="rounded-circle" width="80">
       {% endif %}
     </div>
     <div class="mt-2 text-center pb-1">
@@ -27,6 +27,16 @@
         <div class="col-6 mb-3">
           <h6>Date created</h6>
           <p class="text-muted">{{ member.created_at.strftime("%b %d, %Y") }}</p>
+        </div>
+      </div>
+      <div class="row pt-1">
+        <div class="col-6 mb-3">
+          <h6>Status</h6>
+          {% if member.status == 'online' %}
+            <span class="badge badge-pill badge-success">{{ member.status }}</span>
+          {% elif member.status == 'dnd' %}
+            <span class="badge badge-pill badge-danger">{{ member.status }}</span>
+          {% endif %}
         </div>
       </div>
     </div>
