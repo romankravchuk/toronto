@@ -1,9 +1,15 @@
-settings = {
-    'token' : 'OTc2NDk2MjMzNzYzOTg3NDU2.Gpkr0i.R_1HZ7r57dGToiZCO8lCL02sAgdD41PhBTKLKU',
-    'bot' : 'toronto',
-    'id' : 976496233763987456,
-    'prefix' : '?',
-    'connection_string' : 'postgresql+psycopg2://roman:roman123@localhost:1488/discord',
-    'owners' : [324462804939833345],
-    'log_path' : '/home/roman/Desktop/github_projects/bot/logs/debug.log'
-}
+from dotenv import load_dotenv
+from os import environ
+
+
+load_dotenv()
+
+
+class Settings(object):
+    TOKEN = environ.get('TOKEN')
+    BOT = 'toronto'
+    ID = 976496233763987456
+    PREFIX = "?"
+    CONNECTION_STRING = environ.get('DATABASE_URL')
+    OWNERS = (324462804939833345, )
+    GUILDS = (616889320841674753, 879709795760889937)
