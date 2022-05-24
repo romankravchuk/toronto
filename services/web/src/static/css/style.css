@@ -1,0 +1,44 @@
+h1 {
+  border: 2p #eee solid;
+  color: rgb(42, 116, 165);
+  text-align: center;
+  padding: 10px;
+}
+
+.error-title {
+    color: #000000;
+    text-align: center;
+}
+
+.error-subtitle {
+    color: #3765ac;
+    text-align: center;
+}
+
+.error-template {
+  padding: 40px 15px;
+  text-align: center;
+}
+.error-actions {
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+.error-actions .btn {
+  margin-right: 10px;
+}
+
+.upper{
+  height: 100px;
+ }
+
+ .upper img{
+  width: 100%;
+  height: 150px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  background-image: url(https://i.pinimg.com/564x/c8/1d/2d/c81d2d1f224e8d566ddbb43fb0bdb858.jpg);
+ }
+
+ .b {
+   text-decoration: none;
+ }
