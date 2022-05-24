@@ -11,9 +11,8 @@ def create_member(member: Member):
     db_member = session.query(Member) \
                         .filter_by(id=member.id).first()
     
-    logger.debug(db_member)
-    
     if db_member:
+        logger.debug(db_member)
         return False
     
     try:
@@ -29,14 +28,13 @@ def update_member(id: int, member: Member):
     db_member = session.query(Member) \
                         .filter_by(id=id).first()
     
-    logger.debug(db_member)
-
     if not db_member:
+        logger.debug(db_member)
         return False
     
     try:
         session.query(Member).filter(Member.id == id).update({
-            Member.avatar_url : member.avatar_url,
+            Member.avatar : member.avatar,
             Member.name : member.name,
             Member.discriminator : member.discriminator
         }, synchronize_session=False)

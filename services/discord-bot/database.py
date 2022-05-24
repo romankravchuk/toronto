@@ -2,10 +2,10 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-from config import settings
+from config import Settings
 
 
-engine = create_engine(settings['connection_string'])
+engine = create_engine(Settings.CONNECTION_STRING)
 
 Session = sessionmaker(bind=engine)
 
