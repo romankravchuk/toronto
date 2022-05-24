@@ -1,5 +1,6 @@
 from sqlalchemy import Column, BigInteger, Integer, String, DateTime
-from database import Base
+
+from ..database import Base
 
 
 class Member(Base):

@@ -1,8 +1,8 @@
 from psycopg2 import ProgrammingError
 
-from database import Session
-from models.member import Member
-from logger import logger
+from .database import Session
+from .models.member import Member
+from .extensions import logger
 
 session = Session()
 

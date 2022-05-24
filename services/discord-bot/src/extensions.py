@@ -1,5 +1,8 @@
+import discord
 from loguru import logger
 
+
+intents = discord.Intents.all()
 
 logger.add(
     sink="./logs/debug.log",
