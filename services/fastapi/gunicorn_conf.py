@@ -1,4 +1,5 @@
 from multiprocessing import cpu_count
+from api.config import Config
 
 # Socket Path
 bind = 'unix:/var/www/fastapi-app/gunicorn.sock'
@@ -9,5 +10,5 @@ worker_class = 'uvicorn.workers.UvicornWorker'
 
 # Logging Options
 loglevel = 'debug'
-accesslog = '/var/www/fastapi-app/logs/access_log'
-errorlog =  '/var/www/fastapi-app/logs/error_log'
+accesslog = Config.ACCESS_LOG_PATH
+errorlog =  Config.ERROR_LOG_PATH

@@ -6,5 +6,6 @@ load_dotenv()
 
 
 class Config(object):
-    TOKEN = getenv('TOKEN')
     CONNECTION_STRING = getenv('CONNECTION_STRING')
+    ACCESS_LOG_PATH = getenv('ACCESS_LOG_PATH')
+    ERROR_LOG_PATH = getenv('ERROR_LOG_PATH')
