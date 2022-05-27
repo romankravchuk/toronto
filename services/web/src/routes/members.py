@@ -4,9 +4,11 @@ from flask import redirect, render_template, request, url_for
 from flask_login import login_required
 
 from ..database import db
+from ..models.guild import Guild
 from ..models.member import Member
 from ..config import Config
 from ..logger import logger
+
 
 members = Blueprint('members', __name__, template_folder='templates', url_prefix='/members')
 
@@ -17,14 +19,14 @@ members = Blueprint('members', __name__, template_folder='templates', url_prefix
 def index():
     page = request.args.get('page', default=1, type=int)
     
-    page_size = (page - 1) * Config.QUERY_LIMIT;
+    page_size = (page - 1) * Config.QUERY_LIMIT
     members_count = Member.query.count()
     last_page = ceil(members_count / Config.QUERY_LIMIT)
 
     logger.debug(f"page: {page}, page_size: {page_size} "
                  f"members_count: {members_count}, last_page: {last_page}")
     
-    members = Member.query.order_by(Member.created_at.desc()) \
+    members = Member.query \
                     .limit(Config.QUERY_LIMIT) \
                     .offset(page_size) \
                     .all()
@@ -47,12 +49,19 @@ def member():
     member_id = request.args.get('id', type=str)
     member = Member.query.get(member_id)
 
+    guilds = Guild.query.join(Guild.members).filter_by(id=member.id).all()
     logger.debug(f"Get member: {member}")
+    logger.debug(f'Get guilds: {guilds}')
 
     if not member:
-        abort(404)
+        abort(404)    
 
-    return render_template('members/member.html', member=member)
+    context = {
+        "member" : member,
+        "guilds" : guilds
+    }
+
+    return render_template('members/member.html', **context)
 
 
 @members.route('/edit')
