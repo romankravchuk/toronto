@@ -12,7 +12,7 @@ class FlaskConfig:
 
 
 class Config:
-    QUERY_LIMIT = 5
+    QUERY_LIMIT = 10
     LOG_FORMAT = "{time} | {level} | {message}"
     ERROR = "ERROR"
     DEBUG = "DEBUG"
