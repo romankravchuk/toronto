@@ -1,9 +1,9 @@
-from src.client import client
+from src.bot import bot
 from src.config import Settings
 from src.extensions import logger
 
 
 try:
-    client.run(Settings.TOKEN)
+    bot.run(Settings.TOKEN)
 except AttributeError as e:
     logger.debug(e)
