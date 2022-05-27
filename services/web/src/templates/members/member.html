@@ -7,10 +7,10 @@
   </div>
   <div class="card-body">
     <div class="profile text-center">
-      {% if member.avatar %}
-        <img src="{{ member.avatar }}" alt="member avatar" name="img" class="rounded-circle" width="80">
-      {% else %}
+      {% if member.avatar == "None" %}
         <img src="{{ member.default_avatar }}" alt="member avatar" name="img" class="rounded-circle" width="80">
+      {% else %}
+        <img src="{{ member.avatar }}" alt="member avatar" name="img" class="rounded-circle" width="80">
       {% endif %}
     </div>
     <div class="mt-2 text-center pb-1">
@@ -33,13 +33,53 @@
         <div class="col-6 mb-3">
           <h6>Status</h6>
           {% if member.status == 'online' %}
-            <span class="badge badge-pill badge-success">{{ member.status }}</span>
+            <span class="badge rounded-pill bg-success">{{ member.status }}</span>
           {% elif member.status == 'dnd' %}
-            <span class="badge badge-pill badge-danger">{{ member.status }}</span>
+            <span class="badge rounded-pill bg-danger">{{ member.status }}</span>
+          {% elif member.status == 'offline' %}
+            <span class="badge rounded-pill bg-dark">{{ member.status }}</span>
           {% endif %}
         </div>
       </div>
+      <div class="card-text">
+        <h6 class="text-center">Guilds</h6>
+        <hr class="mt-0 mb-4">
+        <ul class="nav nav-pills mb-4">
+          {% for guild in guilds %}
+          <li class="nav-item">
+            <a class="btn btn-sm rounded-circle" data-bs-toggle="pill" href="#g{{ guild.id }}">
+              <img src="{{ guild.icon }}" alt="avatar" class="rounded-circle" width="50">
+            </a>
+          </li>
+          {% endfor %}
+        </ul>
+        <div class="row pt-1 tab-content">
+          {% for guild in guilds %}
+          <div class="tab-pane container fade" id="g{{ guild.id }}">
+            <div class="col-6 mb-3">
+              <h6>Guild ID</h6>
+              <p class="text-muted">{{ guild.id }}</p>
+            </div>
+            <div class="col-6 mb-3">
+              <h6>Guild name</h6>
+              <p class="text-muted">{{ guild.name }}</p>
+            </div>
+            <div class="col-6 mb-3">
+              <h6>Guild roles</h6>
+              <div class="row-cols-3">
+                {% for role in member.roles %}
+                <span class="role mb-1 text-light bg-dark">{{ role.name }}</span>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
     </div>
+  </div>
+  <div class="card-footer text-muted">
+    Last update: {{ member.updated_at.strftime("%b %d, %Y at %H:%M:%S") }}
   </div>
 </div>
 {% endblock %}
