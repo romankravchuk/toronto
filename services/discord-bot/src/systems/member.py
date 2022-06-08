@@ -2,6 +2,7 @@ from psycopg2 import ProgrammingError
 
 from . import BaseSystem
 from ..models.member import Member
+from ..models.guild import Guild
 from ..extensions import logger
 
 
@@ -9,8 +10,14 @@ class MemberSystem(BaseSystem):
     def __init__(self) -> None:
         super().__init__()
 
+    def get_member(self, id: int):
+        member : Member = self.session.query(Member) \
+                            .filter_by(id=id).first()
+        
+        return member
+
     def create_member(self, member: Member):
-        db_member = self.session.query(Member) \
+        db_member : Member = self.session.query(Member) \
                         .filter_by(id=member.id).first()
     
         if db_member:
@@ -26,7 +33,7 @@ class MemberSystem(BaseSystem):
         return True
     
     def update_member(self, id: int, member: Member):
-        db_member = self.session.query(Member) \
+        db_member : Member = self.session.query(Member) \
                         .filter_by(id=id).first()
         
         if not db_member:
