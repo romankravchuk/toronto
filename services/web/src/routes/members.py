@@ -58,7 +58,7 @@ def member():
 
     context = {
         "member" : member,
-        "guilds" : guilds
+        "guilds" : member.guilds
     }
 
     return render_template('members/member.html', **context)
