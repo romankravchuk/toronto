@@ -46,4 +46,12 @@ class Role(Base):
     __tablename__ = 'roles'
     id = Column(BigInteger, primary_key=True)
     name = Column(String(100), nullable=False)
+    guild_id = Column(BigInteger, ForeignKey('guilds.id'))
     
+    def __init__(self, id, name, guild_id):
+        self.id = id
+        self.name = name
+        self.guild_id = guild_id
+    
+    def __repr__(self) -> str:
+        return f'<ID: {self.id}, name: {self.name}, guild_id: {self.guild_id}>'
