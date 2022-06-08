@@ -146,8 +146,7 @@ class Tasks(BaseCog):
     async def create_guild_members(self):
         for guild in self.bot.guilds:
             for member in guild.members:
-                m = member_system.get_member(member.id)
-                guild_system.create_member_guild(guild_id=guild.id, member=m)
+                guild_system.create_member_guild(guild_id=guild.id, member_id=member.id)
 
 
 def setup(client: commands.Bot):
