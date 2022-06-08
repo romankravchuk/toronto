@@ -40,4 +40,5 @@ class Role(db.Model):
     __tablename__ = 'roles'
     id = db.Column(db.BigInteger, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
+    guild_id = db.Column(db.BigInteger, db.ForeignKey('guilds.id'))
     
