@@ -10,6 +10,16 @@ class MemberSystem(BaseSystem):
     def __init__(self) -> None:
         super().__init__()
 
+    def count(self):
+        return self.session.query(Member).count()
+
+    def get_members(self, limit: int, offset: int):
+        members = self.session.query(Member) \
+                            .limit(limit) \
+                            .offset(offset) \
+                            .all()
+        return members
+
     def get_member(self, id: int):
         member : Member = self.session.query(Member) \
                             .filter_by(id=id).first()
@@ -54,5 +64,22 @@ class MemberSystem(BaseSystem):
         
         return True
 
+    def delete(self, id: int):
+        member = self.session.query(Member) \
+                            .filter_by(id=id) \
+                            .first()
+
+        if not member:
+            logger.debug(f'Member {id} not exists.')
+            return False
+        
+        try:
+            self.session.delete(member)
+            self.session.commit()
+        except ProgrammingError as e:
+            logger.error(e)
+            return False
+        
+        return True
 
 member_system = MemberSystem()
