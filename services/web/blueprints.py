@@ -3,10 +3,12 @@ from flask import render_template
 from flask_login import LoginManager
 from werkzeug.exceptions import NotFound
 
-from .models.user import User
-from .routes.members import members
+from database.user import user_system
+from logger import logger
+
 from .routes.auth import auth
-from .logger import logger
+from .routes.members import members
+
 
 app.register_blueprint(auth)
 app.register_blueprint(members)
@@ -29,4 +31,4 @@ def not_found(error):
 
 @login_manager.user_loader
 def load_user(user_id):
-    return User.query.get(int(user_id))
+    return user_system.get_by_id(int(user_id))

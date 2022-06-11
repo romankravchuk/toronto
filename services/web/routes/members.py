@@ -3,11 +3,12 @@ from flask import Blueprint, flash, abort
 from flask import redirect, render_template, request, url_for
 from flask_login import login_required
 
-from ..database import db
-from ..models.guild import Guild
-from ..models.member import Member
-from ..config import Config
-from ..logger import logger
+from config import Config
+from database.models import Member
+from database.models import Guild
+from database.member import member_system
+from database.guild import guild_system
+from logger import logger
 
 
 members = Blueprint('members', __name__, template_folder='templates', url_prefix='/members')
@@ -20,17 +21,13 @@ def index():
     page = request.args.get('page', default=1, type=int)
     
     page_size = (page - 1) * Config.QUERY_LIMIT
-    members_count = Member.query.count()
+    members_count = member_system.count()
     last_page = ceil(members_count / Config.QUERY_LIMIT)
 
     logger.debug(f"page: {page}, page_size: {page_size} "
                  f"members_count: {members_count}, last_page: {last_page}")
     
-    members = Member.query \
-                    .limit(Config.QUERY_LIMIT) \
-                    .offset(page_size) \
-                    .all()
-
+    members = member_system.get_members(limit=Config.QUERY_LIMIT, offset=page_size)
     logger.debug(f'Get members: {members}')
 
     context = {
@@ -47,11 +44,9 @@ def index():
 @logger.catch
 def member():
     member_id = request.args.get('id', type=str)
-    member = Member.query.get(member_id)
+    member = member_system.get_member(id=member_id)
 
-    guilds = Guild.query.join(Guild.members).filter_by(id=member.id).all()
     logger.debug(f"Get member: {member}")
-    logger.debug(f'Get guilds: {guilds}')
 
     if not member:
         abort(404)    
@@ -69,7 +64,7 @@ def member():
 @logger.catch
 def edit():
     member_id = request.args.get('id', type=str)
-    member = Member.query.get(member_id)
+    member = member_system.get_member(id=member_id)
 
     logger.debug(f"Get member: {member}")
 
@@ -84,7 +79,7 @@ def edit():
 @login_required
 def edit_post():
     member_id = request.args.get('id', type=str)
-    member = Member.query.get(member_id)
+    member = member_system.get_member(id=member_id)
 
     logger.debug(f"Get member: {member}")
 
@@ -96,8 +91,6 @@ def edit_post():
         
     member.name = name
     member.email = email
-
-    db.session.commit()
 
     logger.debug(f"{member} updated successfully")
     flash(f"{member.name} updated successfully", "info")
@@ -111,14 +104,11 @@ def edit_post():
 @logger.catch
 def delete():
     member_id = request.args.get('id', type=str)
-    member = Member.query.get(member_id)
+    member = member_system.get_member(id=member_id)
 
     logger.debug(f"Get member: {member}")
 
-    if member:
-        db.session.delete(member)
-        db.session.commit()
-        
+    if member_system.delete(member_id):
         logger.debug(f"{member} deleted successfully")
         flash(f"{member.name} deleted successfully", 'info')
 

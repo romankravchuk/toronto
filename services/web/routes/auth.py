@@ -3,9 +3,10 @@ from flask import redirect, render_template, url_for
 from flask_login import login_user, login_required, current_user, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
 
-from ..models.user import User
-from ..database import db
-from ..logger import logger
+from database.models import User
+from database.user import user_system
+from logger import logger
+
 
 auth = Blueprint('auth', __name__, template_folder='templates', url_prefix="/auth")
 
@@ -23,7 +24,7 @@ def login_post():
     password = form.get('password')
     remember = True if form.get('remember') else False
 
-    user = User.query.filter_by(username=username).first()
+    user = user_system.get_by_username(username=username)
 
     logger.debug(f"Get user: {user}")
 
@@ -61,7 +62,7 @@ def signup_post():
     username = request.form.get('username', type=str)
     password = request.form.get('password', type=str)
 
-    user = User.query.filter_by(username=username).first()
+    user = user_system.get_by_username(username=username)
 
     logger.debug(f'Get user: {user}')
 
@@ -73,8 +74,7 @@ def signup_post():
     password_hash = generate_password_hash(password, method='pbkdf2:sha256')
     new_user = User(username=username, password=password_hash)
 
-    db.session.add(new_user)
-    db.session.commit()
+    user_system.create(user=new_user)
 
     logger.debug(f'User {new_user} successfully signed up')
 
@@ -84,9 +84,7 @@ def signup_post():
 @auth.route('/profile')
 @login_required
 def profile():
-    user = User.query \
-                .filter_by(id=current_user.get_id()) \
-                .first()
+    user = user_system.get_by_id(user_id=current_user.get_id())
 
     logger.debug(f'Get user: {user}')
 
