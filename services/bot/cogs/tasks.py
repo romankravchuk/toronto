@@ -122,7 +122,7 @@ class Tasks(BaseCog):
                     str(member.avatar), str(member.default_avatar), 
                     member.created_at, member.status[0]
                 )
-                mem.member_system.create_member(member=m, guild_id=guild.id)
+                mem.member_system.create_member(member=m)
     
     @tasks.loop(minutes=5)
     async def update_members(self):
