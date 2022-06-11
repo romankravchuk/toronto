@@ -1,9 +1,9 @@
 from psycopg2 import ProgrammingError
 
-from . import BaseSystem
-from ..models.member import Member
-from ..models.guild import Guild
-from ..extensions import logger
+from logger import logger
+
+from database import BaseSystem
+from .models import Member
 
 
 class MemberSystem(BaseSystem):

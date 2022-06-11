@@ -1,8 +1,9 @@
 from psycopg2 import ProgrammingError
 
-from . import BaseSystem
-from ..models.member import Role
-from ..extensions import logger
+from logger import logger
+
+from database import BaseSystem
+from .models import Role
 
 
 class RoleSystem(BaseSystem):

@@ -1,12 +1,16 @@
 from discord.ext import commands, tasks
 
 from . import BaseCog
-from ..extensions import is_me, logger
-from ..models.guild import Guild
-from ..models.member import Member, Role
-from ..systems.guild import guild_system
-from ..systems.member import member_system
-from ..systems.role import role_system
+from ..extensions import is_me
+from logger import logger
+from database.models import Member
+from database.models import Guild
+from database.models import Role
+from database import (
+    guild as guil,
+    member as mem,
+    role as rol
+)
 
 
 class Tasks(BaseCog):
@@ -107,7 +111,7 @@ class Tasks(BaseCog):
     async def add_guilds(self):
         for g in self.bot.guilds:
             guild = Guild(g.id, g.name, str(g.icon))
-            guild_system.create_guild(guild=guild)
+            guil.guild_system.create_guild(guild=guild)
     
     @tasks.loop(hours=24)
     async def add_members(self):
@@ -118,7 +122,7 @@ class Tasks(BaseCog):
                     str(member.avatar), str(member.default_avatar), 
                     member.created_at, member.status[0]
                 )
-                member_system.create_member(member=m, guild_id=guild.id)
+                mem.member_system.create_member(member=m, guild_id=guild.id)
     
     @tasks.loop(minutes=5)
     async def update_members(self):
@@ -126,27 +130,27 @@ class Tasks(BaseCog):
             for m in guild.members:
                 member = Member(m.id, m.name, m.discriminator, str(m.avatar),
                                 str(m.default_avatar), m.created_at, m.status[0])
-                member_system.update_member(id=m.id, member=member)
+                mem.member_system.update_member(id=m.id, member=member)
 
     @tasks.loop(hours=24)
     async def create_members_roles(self):
         for guild in self.bot.guilds:
             for role in guild.roles:
                 r = Role(role.id, role.name, guild.id)
-                role_system.create_role(role=r)
+                rol.role_system.create_role(role=r)
     
     @tasks.loop(minutes=10)
     async def update_members_roles(self):
         for guild in self.bot.guilds:
             for role in guild.roles:
                 r = Role(role.id, role.name, guild.id)
-                role_system.update_role(role=r)
+                rol.role_system.update_role(role=r)
 
     @tasks.loop(hours=24)
     async def create_guild_members(self):
         for guild in self.bot.guilds:
             for member in guild.members:
-                guild_system.create_member_guild(guild_id=guild.id, member_id=member.id)
+                guil.guild_system.create_member_guild(guild_id=guild.id, member_id=member.id)
 
 
 def setup(client: commands.Bot):

@@ -1,17 +1,18 @@
 from discord.ext import commands
 
-from .config import Settings
-from .extensions import intents, logger
+from config import BotConfig
+from logger import logger
+from .extensions import intents
 
 
 class Bot(commands.Bot):
     def __init__(self, **options):
         super().__init__(**options)
-        self.command_prefix = Settings.PREFIX
+        self.command_prefix = BotConfig.PREFIX
 
     def load_cogs(self):
-        for cog in Settings.COGS:
-            self.load_extension(f'src.cogs.{cog}')
+        for cog in BotConfig.COGS:
+            self.load_extension(f'bot.cogs.{cog}')
             logger.debug(f'Cog {cog} loaded')
 
     async def on_ready(self):
@@ -19,4 +20,4 @@ class Bot(commands.Bot):
         self.load_cogs()
 
 
-bot = Bot(command_prefix=Settings.PREFIX, intents=intents)
+bot = Bot(command_prefix=BotConfig.PREFIX, intents=intents)

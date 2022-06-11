@@ -1,9 +1,10 @@
 from psycopg2 import ProgrammingError
 
-from . import BaseSystem
-from ..models.guild import Guild
-from ..models.member import Member
-from ..extensions import logger
+from logger import logger
+
+from database import BaseSystem
+from .models import Member
+from .models import Guild
 
 
 class GuildSystem(BaseSystem):
@@ -22,7 +23,7 @@ class GuildSystem(BaseSystem):
             self.session.add(guild)
             self.session.commit()
         except ProgrammingError as e:
-            logger.debug(e)
+            logger.error(e)
             return False
         
         return True
@@ -46,7 +47,7 @@ class GuildSystem(BaseSystem):
             guild.members.append(member)
             self.session.commit()
         except ProgrammingError as e:
-            logger.debug(e)
+            logger.error(e)
             return False
 
         return True
