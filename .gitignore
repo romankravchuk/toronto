@@ -298,4 +298,4 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.toptal.com/developers/gitignore/api/dotenv,python,flask,linux,windows
-/logs
+*/logs

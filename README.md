@@ -4,7 +4,7 @@
     <a href='https://github.com/romankravchuk/toronto/releases'>
         <img src='https://img.shields.io/badge/VERSION-1.0-informational?style=for-the-badge&labelColor=000'>
     </a>
-    <a href='https://github.com/romankravchuk/toronto/LICENSE.md'>
+    <a href='./LICENSE.md'>
         <img src='https://img.shields.io/badge/LICENSE-MIT-ff69b4?style=for-the-badge&labelColor=000'>
     </a>
 </div>
